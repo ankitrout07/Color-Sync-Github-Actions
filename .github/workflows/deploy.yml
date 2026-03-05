@@ -18,8 +18,12 @@ jobs:
 
       - name: Deploy Container
         run: |
-          # Stop and remove if exists
-          docker stop color-sync-container || true
-          docker rm color-sync-container || true
-          # Run the new version
+          # Force remove any existing container with this name
+          docker rm -f color-sync-container || true
+          
+          # Run the new container and wait 5 seconds to ensure it stays up
           docker run -d --name color-sync-container -p 8080:3000 color-sync-app:latest
+          
+          # Validation: Check if it is actually running
+          sleep 5
+          docker ps -f name=color-sync-container
