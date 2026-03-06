@@ -2,74 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Color Sync Dashboard</title>
+    <title>Color-Sync CI/CD Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --primary-color: #6366f1;
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: var(--bg-gradient);
-            font-family: 'Inter', system-ui, sans-serif;
-            color: white;
-            overflow: hidden;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 3rem;
-            text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.8s ease-out;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            background: rgba(34, 197, 94, 0.2);
-            color: #4ade80;
-            border-radius: 99px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(74, 222, 128, 0.3);
-        }
-        h1 { font-size: 2.5rem; margin: 0; letter-spacing: -0.025em; }
-        p { color: #94a3b8; margin-top: 1rem; }
-        .pulse {
-            width: 12px;
-            height: 12px;
-            background: #4ade80;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 0 rgba(74, 222, 128, 0.4);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        .accent-glow { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
     </style>
 </head>
-<body>
-    <div class="glass-card">
-        <div class="status-badge"><span class="pulse"></span>SYSTEMS OPERATIONAL</div>
-        <h1>Color Sync v2.0</h1>
-        <p>Deployment Node: <strong>NTZ-LINUX-003</strong></p>
-        <p style="font-size: 0.75rem; font-family: monospace;">Container ID: 943aeab36f4f (Sync Active)</p>
+<body class="bg-slate-950 text-slate-200 min-h-screen flex items-center justify-center p-6">
+    <div class="glass max-w-2xl w-full rounded-3xl p-8 accent-glow border-t-4 border-indigo-500">
+        <div class="flex justify-between items-start mb-8">
+            <div>
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                    Color-Sync Dashboard
+                </h1>
+                <p class="text-slate-400 text-sm mt-1">Real-time CI/CD Pipeline Status</p>
+            </div>
+            <span class="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-mono border border-emerald-500/20">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                LIVE ON NTZ-LINUX-003
+            </span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800">
+                <p class="text-slate-500 text-xs uppercase font-bold tracking-wider">Primary Theme</p>
+                <div class="flex items-center gap-3 mt-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
+                    <span class="font-mono text-indigo-300">#6366f1</span>
+                </div>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800">
+                <p class="text-slate-500 text-xs uppercase font-bold tracking-wider">Build Version</p>
+                <p class="text-xl font-mono text-cyan-400 mt-1">v2.1.0-stable</p>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex justify-between text-sm">
+                <span class="text-slate-400 italic font-serif">"Push code to GitHub to trigger the sync..."</span>
+                <span class="text-indigo-400 font-bold hover:underline cursor-pointer">View Actions Logs →</span>
+            </div>
+            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-indigo-500 w-full shadow-[0_0_15px_rgba(99,102,241,0.6)]"></div>
+            </div>
+        </div>
+
+        <footer class="mt-8 pt-6 border-t border-slate-800 text-center">
+            <p class="text-xs text-slate-500">
+                Infrastructure: <span class="text-slate-300">Ubuntu LTS</span> | 
+                Engine: <span class="text-slate-300">Docker</span> | 
+                Orchestration: <span class="text-slate-300">GitHub Actions</span>
+            </p>
+        </footer>
     </div>
 </body>
 </html>

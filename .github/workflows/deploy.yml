@@ -1,10 +1,7 @@
-name: Color Sync Deployment
-
+name: Deploy Color-Sync
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch: # This allows you to run it manually for testing!
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -16,14 +13,18 @@ jobs:
       - name: Build Docker Image
         run: docker build -t color-sync-app:latest .
 
-      - name: Deploy Container
+      - name: Production Deployment
         run: |
-          # Force remove any existing container with this name
+          # Kill old instance
           docker rm -f color-sync-container || true
-          
-          # Run the new container and wait 5 seconds to ensure it stays up
-          docker run -d --name color-sync-container -p 8080:3000 color-sync-app:latest
-          
-          # Validation: Check if it is actually running
-          sleep 5
+          # Run new instance
+          docker run -d \
+            --name color-sync-container \
+            --restart always \
+            -p 8080:3000 \
+            color-sync-app:latest
+
+      - name: Validation
+        run: |
+          sleep 3
           docker ps -f name=color-sync-container
